@@ -104,7 +104,8 @@ uint8_t L3G4200D_Poll()
 	}
 	else
 	{
-		w_y.value = p_w_y.value;
+		//w_y.value = p_w_y.value;
+		w_y.value = 0.0;
 	}
 	
 	//Measure_Push((MSB << 8 | LSB) * 0.00875, WY);
@@ -123,8 +124,9 @@ uint8_t L3G4200D_Poll()
 	}
 	else
 	{
-		w_x.value = p_w_x.value;
+		//w_x.value = p_w_x.value;
 		//wx_sum[peak] = 0.0;
+		w_x.value = 0.0;
 	}
 	
 	//Measure_Push((MSB << 8 | LSB) * 0.00875, WX);
@@ -143,8 +145,9 @@ uint8_t L3G4200D_Poll()
 	}
 	else
 	{
-		w_z.value = p_w_z.value;
+		//w_z.value = p_w_z.value;
 		//wz_sum[peak] = 0.0;
+		w_z.value = 0.0;
 	}
 	
 	//Measure_Push((MSB << 8 | LSB) * 0.00875, WZ);

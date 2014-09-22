@@ -101,20 +101,21 @@ uint8_t Course_Calc()
 	}vector;
 	
 	//Угол отклонения от вертикали в радианах
-	Q = (1.0) * atan2(sqrt(k_x.value * k_x.value + k_y.value * k_y.value), (k_z.value));
-	//int_Oz.value = Q * 180.0 / M_PI; //УБРАТЬ!!!!!!!!!!!!	
+	Q = atan2(sqrt(k_x.value * k_x.value + k_y.value * k_y.value), (k_z.value));
+	int_Oz.value = Q * 180.0 / M_PI; //УБРАТЬ!!!!!!!!!!!!	
+	
 	//Нормаль к вектору (kx, ky, 0) - ось вращения
 	volatile vector n;
-	
 	n.X = k_y.value;
 	n.Y = (-1.0) * k_x.value;
 	n.Z = 0.0;	
 	
 	//Нормализуем вектор нормали
-	//float n_L = sqrt(n.X*n.X+n.Y*n.Y);
-	//n.X /= n_L;
-	//n.Y /= n_L;
+	float n_L = sqrt(n.X*n.X+n.Y*n.Y);
+	n.X /= n_L;
+	n.Y /= n_L;
 	
+	//Запоминаем значения магнитометра для предотвращения их изменения во время расчета
 	B_x_read = B_x.value;
 	B_y_read = B_y.value;
 	B_z_read = B_z.value;       
@@ -126,7 +127,6 @@ uint8_t Course_Calc()
 	
 	//Расчет магнитного курса в радианах
 	A = atan2(Bx, By);
-	//A = atan2(B_y.value, B_x.value);
 	
 	//Коррекция на 0-2Пи
 	if (A < 0.0)
@@ -139,8 +139,7 @@ uint8_t Course_Calc()
 	}
 	
 	//Перевод в градусы + повернутый магнитометр + магнитная девиация
-	//magOz.value = A * 180.0 / M_PI;
-	A = A * 180.0 / M_PI + coeffs[Mag_deviat].value;
+	A = A * 180.0 / M_PI  - 90.0 + coeffs[Mag_deviat].value;
 	
 	if (A >= 360.0)
 	{
